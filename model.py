@@ -39,15 +39,19 @@ def estimate_weight(date):
 			
 			last_weight = current_weight
 			current_weight = weight
-			#print dt, weight
 			
 			if not last_date: last_date = current_date
 			if not last_weight: last_weight = current_weight
+			
+			if date < current_date:
+				return current_weight
+				
 			if date > last_date and date < current_date:
 				avg_weight = (last_weight+current_weight)/2
 				return avg_weight
 				
 	return None 
-			
-print 'one week: ', estimate_weight(datetime.now() - timedelta(weeks=1))
-print 'one month: ', estimate_weight(datetime.now() - timedelta(weeks=3))
+	
+# usage			
+#print 'one week: ', estimate_weight(datetime.now() - timedelta(weeks=2))
+#print 'one month: ', estimate_weight(datetime.now() - timedelta(weeks=3))

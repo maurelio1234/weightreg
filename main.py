@@ -3,6 +3,7 @@
 import ui
 import model
 import console
+from datetime import datetime, timedelta
 
 @ui.in_background
 def send_action(sender):
@@ -42,5 +43,10 @@ main_view['textfield_weight'].action = weight_changed_action
 main_view['switch_test_mode'].value = model.test_mode
 main_view['textfield_ideal_weight'].text = '{:.1f}'.format(model.ideal_weight(height))
 main_view['textfield_height'].enabled = False 
+
+main_view['trend_15_days'].text = '{:.1f} Kg'.format(model.estimate_weight(datetime.now() - timedelta(weeks=2)))
+
+print model.estimate_weight(datetime.now() - timedelta(weeks=4))
+main_view['trend_30_days'].text = '{:.1f} Kg'.format(model.estimate_weight(datetime.now() - timedelta(weeks=4)))
 
 main_view.present()
