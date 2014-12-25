@@ -21,19 +21,24 @@ def ideal_weight(height):
 
 def get_height(): return 1.72
 
-def estimate_weight(date):
+def load_data():
 	with open('data.txt') as f:
+		ret = []
+		for line in f:
+			s = line.split(',')
+			dt = datetime.strptime(s[0], "%Y-%m-%d %H:%M:%S.%f")
+			weight = float(s[1])
+			ret.append((dt,weight))
+		return ret
+			
+def estimate_weight(date):
 		last_date = None 
 		current_date = None 
 		
 		last_weight = 0
 		current_weight = 0
 		
-		for line in f:
-			s = line.split(',')
-			dt = datetime.strptime(s[0], "%Y-%m-%d %H:%M:%S.%f")
-			weight = float(s[1])
-			
+		for (dt,weight) in load_data():
 			last_date = current_date
 			current_date = dt
 			
@@ -49,9 +54,25 @@ def estimate_weight(date):
 			if date > last_date and date < current_date:
 				avg_weight = (last_weight+current_weight)/2
 				return avg_weight
-				
-	return None 
+		return None 
 	
 # usage			
 #print 'one week: ', estimate_weight(datetime.now() - timedelta(weeks=2))
 #print 'one month: ', estimate_weight(datetime.now() - timedelta(weeks=3))
+
+def generate_plot():
+	import matplotlib.pyplot as plt
+	from matplotlib.dates import date2num
+	
+	data = load_data()
+	plt.plot_date(x=[date2num(dt) for (dt,w) in data],
+	              y=[w for (dt,w) in data],
+	              xdate=True,
+	              linestyle='-',
+	              linewidth=2,
+	              antialiased=True,
+	              marker=None) # TODO: how to hide markers?
+	# TODO: how to properly format and space dates?
+	# TODO: how to obtain an image i can display on the UI?
+	plt.show()
+#generate_plot()
