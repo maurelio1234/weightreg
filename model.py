@@ -73,6 +73,7 @@ def generate_plot():
 	              antialiased=True,
 	              marker=None) # TODO: how to hide markers?
 	# TODO: how to properly format and space dates?
-	# TODO: how to obtain an image i can display on the UI?
 	plt.show()
+	plt.savefig('plot.png')
+	return 'plot.png'
 #generate_plot()
