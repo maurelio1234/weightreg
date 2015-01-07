@@ -46,7 +46,15 @@ main_view['textfield_height'].enabled = False
 
 main_view['trend_15_days'].text = '{:.1f} Kg'.format(model.estimate_weight(datetime.now() - timedelta(weeks=2)))
 
-print model.estimate_weight(datetime.now() - timedelta(weeks=4))
 main_view['trend_30_days'].text = '{:.1f} Kg'.format(model.estimate_weight(datetime.now() - timedelta(weeks=4)))
 
+#model.generate_plot()
+import StringIO
+from PIL import Image
+pilimg = Image.open('plot.png')
+strio = StringIO.StringIO()
+pilimg.save(strio, pilimg.format)
+data = strio.getvalue()
+strio.close()
+main_view['plot'].image = ui.Image.from_data(data)
 main_view.present()

@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-
+from PIL import Image
 test_mode = False 
 
 def register_weight(value):
@@ -75,5 +75,5 @@ def generate_plot():
 	# TODO: how to properly format and space dates?
 	plt.show()
 	plt.savefig('plot.png')
-	return 'plot.png'
+	return Image.open('plot.png')
 #generate_plot()
