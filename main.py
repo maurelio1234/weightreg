@@ -48,10 +48,22 @@ main_view['trend_15_days'].text = '{:.1f} Kg'.format(model.estimate_weight(datet
 
 main_view['trend_30_days'].text = '{:.1f} Kg'.format(model.estimate_weight(datetime.now() - timedelta(weeks=4)))
 
-#model.generate_plot()
+import threading
+class PlotThread(threading.Thread):
+	def __init__(self):
+		threading.Thread.__init__(self)
+	def run(self):
+		from time import sleep
+		sleep(2)
+		print 'Generating plot...'
+		model.generate_plot()
+		print 'Done'
+		
+PlotThread().start()
+
 import StringIO
 from PIL import Image
-pilimg = Image.open('plot.png')
+pilimg = Image.open('plot.png') # TODO: avoid hard coded figure name
 strio = StringIO.StringIO()
 pilimg.save(strio, pilimg.format)
 data = strio.getvalue()
