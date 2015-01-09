@@ -71,9 +71,16 @@ def generate_plot():
 	              linestyle='-',
 	              linewidth=2,
 	              antialiased=True,
-	              marker=None) # TODO: how to hide markers?
+	              marker=None)
 	# TODO: how to properly format and space dates?
-	plt.show()
-	plt.savefig('plot.png')
-	return Image.open('plot.png')
-#generate_plot()
+	
+	import StringIO
+	#from PIL import Image
+		#pilimg = Image.open(filename)
+	strio = StringIO.StringIO()
+	plt.savefig(strio, format='png')
+	#pilimg.save(strio, pilimg.format)
+	data = strio.getvalue()
+	strio.close()
+	
+	return data
