@@ -1,7 +1,27 @@
 from datetime import datetime, timedelta
 from PIL import Image
-test_mode = False 
+import json
 
+test_mode = False 
+class Config:
+	def __init__(self):
+		self.height = 1.72
+		
+config = None
+
+def load_config():
+	global config
+	config = Config()
+	try:
+		with open('config.txt') as f:
+			config.__dict__ = json.load(f)
+	except BaseException:
+		save_config()
+	
+def save_config():
+	with open('config.txt', 'w') as f:
+		json.dump(config.__dict__, f, indent=4)
+	
 def register_weight(value):
 	"""register weight. value should be a float"""
 	logline = str(datetime.now()) + ',' + str(float(value)) + '\n'
@@ -19,8 +39,8 @@ def compute_imc(weight, height):
 def ideal_weight(height):
 	return 24.9 * height * height
 
-def get_height(): return 1.72
-
+def get_height(): return config.height
+	
 def load_data():
 	with open('data.txt') as f:
 		ret = []
@@ -84,3 +104,5 @@ def generate_plot():
 	strio.close()
 	
 	return data
+	
+load_config()
