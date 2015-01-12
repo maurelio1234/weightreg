@@ -41,6 +41,13 @@ def ideal_weight(height):
 
 def get_height(): return config.height
 	
+def set_height(height):
+	try:
+		config.height = float(height)
+		save_config()
+	except ValueError:
+		pass
+		
 def load_data():
 	with open('data.txt') as f:
 		ret = []
