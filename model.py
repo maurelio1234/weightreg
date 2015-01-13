@@ -2,10 +2,10 @@ from datetime import datetime, timedelta
 from PIL import Image
 import json
 
-test_mode = False 
 class Config:
 	def __init__(self):
 		self.height = 1.72
+		self.test_mode = False
 		
 config = None
 
@@ -26,7 +26,7 @@ def register_weight(value):
 	"""register weight. value should be a float"""
 	logline = str(datetime.now()) + ',' + str(float(value)) + '\n'
 	
-	if test_mode:
+	if config.test_mode:
 		print logline
 	else:
 		f = open('data.txt', 'a')
@@ -39,6 +39,7 @@ def compute_imc(weight, height):
 def ideal_weight(height):
 	return 24.9 * height * height
 
+# TODO: remove these methods, use config instead
 def get_height(): return config.height
 	
 def set_height(height):
@@ -99,14 +100,10 @@ def generate_plot():
 	              linewidth=2,
 	              antialiased=True,
 	              marker=None)
-	# TODO: how to properly format and space dates?
 	
 	import StringIO
-	#from PIL import Image
-		#pilimg = Image.open(filename)
 	strio = StringIO.StringIO()
 	plt.savefig(strio, format='png')
-	#pilimg.save(strio, pilimg.format)
 	data = strio.getvalue()
 	strio.close()
 	
