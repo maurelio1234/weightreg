@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta
-from PIL import Image
 import json
+import matplotlib.pyplot as plt
+from matplotlib.dates import date2num
+import StringIO
 
 class Config:
 	def __init__(self):
@@ -89,9 +91,6 @@ def estimate_weight(date):
 #print 'one month: ', estimate_weight(datetime.now() - timedelta(weeks=3))
 
 def generate_plot():
-	import matplotlib.pyplot as plt
-	from matplotlib.dates import date2num
-	
 	data = load_data()
 	plt.plot_date(x=[date2num(dt) for (dt,w) in data],
 	              y=[w for (dt,w) in data],
@@ -100,13 +99,10 @@ def generate_plot():
 	              linewidth=2,
 	              antialiased=True,
 	              marker=None)
-	
-	import StringIO
 	strio = StringIO.StringIO()
 	plt.savefig(strio, format='png')
 	data = strio.getvalue()
-	strio.close()
-	
+	strio.close()	
 	return data
 	
 load_config()
